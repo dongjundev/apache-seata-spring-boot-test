@@ -1,0 +1,47 @@
+server:
+  port: 7091
+
+spring:
+  application:
+    name: seata-server
+
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: ${user.home}/logs/seata
+
+console:
+  user:
+    username: seata
+    password: seata
+
+seata:
+  server:
+    service-port: 8091
+  security:
+    secretKey: SeataSecretKey0987654321012345678901234567890123456789012345678901234567890
+    tokenValidityInMilliseconds: 1800000
+  config:
+    # Support: nacos, consul, apollo, zk, etcd3, file
+    type: file
+  registry:
+    # Support: nacos, eureka, redis, zk, consul, etcd3, sofa, file
+    type: file
+  store:
+    # Store mode: file, db, redis
+    mode: db
+    db:
+      datasource: druid
+      db-type: mysql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://seata-mysql:3306/seata?useUnicode=true&rewriteBatchedStatements=true
+      user: root
+      password: root
+      min-conn: 10
+      max-conn: 100
+      global-table: global_table
+      branch-table: branch_table
+      lock-table: lock_table
+      distributed-lock-table: distributed_lock
+      query-limit: 1000
+      max-wait: 5000

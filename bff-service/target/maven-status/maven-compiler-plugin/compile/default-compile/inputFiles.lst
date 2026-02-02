@@ -1,0 +1,8 @@
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/dto/OrderRequest.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/controller/OrderController.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/dto/OrderResponse.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/config/SeataXidInterceptor.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/config/RestClientConfig.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/BffApplication.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/service/OrderService.java
+/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/bff-service/src/main/java/com/example/bff/config/OpenApiConfig.java

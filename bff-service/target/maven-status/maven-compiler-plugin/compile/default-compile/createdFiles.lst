@@ -1,0 +1,8 @@
+com/example/bff/dto/OrderRequest.class
+com/example/bff/controller/OrderController.class
+com/example/bff/config/RestClientConfig.class
+com/example/bff/dto/OrderResponse.class
+com/example/bff/config/SeataXidInterceptor.class
+com/example/bff/config/OpenApiConfig.class
+com/example/bff/service/OrderService.class
+com/example/bff/BffApplication.class

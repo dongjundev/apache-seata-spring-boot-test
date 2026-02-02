@@ -1,0 +1,64 @@
+services:
+  seata-mysql:
+    image: mysql:8.0
+    container_name: seata-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=seata
+    volumes:
+      - ./docker/init/seata:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  seata-server:
+    image: apache/seata-server:2.3.0
+    container_name: seata-server
+    ports:
+      - "7091:7091"
+      - "8091:8091"
+    volumes:
+      - "./docker/seata-server-config/application.yml:/seata-server/resources/application.yml"
+      - "./docker/seata-server-config/jdbc/mysql-connector-java-8.0.33.jar:/seata-server/libs/mysql-connector-java-8.0.33.jar"
+    depends_on:
+      seata-mysql:
+        condition: service_healthy
+
+  payment-postgres:
+    image: postgres:15
+    container_name: payment-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=payment
+      - POSTGRES_PASSWORD=payment
+      - POSTGRES_DB=paymentdb
+    volumes:
+      - ./docker/init/payment:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payment"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  inventory-mariadb:
+    image: mariadb:10.11
+    container_name: inventory-mariadb
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=inventorydb
+      - MYSQL_USER=inventory
+      - MYSQL_PASSWORD=inventory
+    volumes:
+      - ./docker/init/inventory:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

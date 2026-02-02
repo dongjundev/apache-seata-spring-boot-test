@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:mvnrepository.com)",
+      "Bash(mvn clean compile:*)",
+      "Bash(./mvnw clean compile:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(./mvnw package:*)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:repo1.maven.org)",
+      "WebFetch(domain:seata.apache.org)",
+      "WebFetch(domain:hub.docker.com)",
+      "Bash(find:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker run:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose restart:*)",
+      "Bash(docker stop:*)",
+      "Bash(docker rm:*)",
+      "Bash(./mvnw clean package:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(timeout 25 ./mvnw spring-boot:run:*)",
+      "Bash(tree:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)",
+      "Bash(timeout 30 ./mvnw spring-boot:run:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(docker-compose logs:*)"
+    ]
+  }
+}

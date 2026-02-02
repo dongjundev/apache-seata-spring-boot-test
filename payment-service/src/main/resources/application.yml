@@ -1,0 +1,44 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/paymentdb
+    driver-class-name: org.postgresql.Driver
+    username: payment
+    password: payment
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+# Seata Configuration
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: my_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      my_tx_group: default
+    grouplist:
+      default: localhost:8091
+  registry:
+    type: file
+  config:
+    type: file
+
+logging:
+  level:
+    com.example: DEBUG
+    org.apache.seata: DEBUG
