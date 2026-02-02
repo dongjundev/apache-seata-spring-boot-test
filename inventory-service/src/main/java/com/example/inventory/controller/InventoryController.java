@@ -22,15 +22,9 @@ public class InventoryController {
     }
 
     @PostMapping("/deduct")
-    public ResponseEntity<InventoryResponse> deductInventory(
-            @RequestHeader(value = RootContext.KEY_XID, required = false) String xid,
-            @RequestBody InventoryRequest request) {
-
-        log.info("Received inventory deduction request with XID: {}", xid);
-
-        if (xid != null) {
-            RootContext.bind(xid);
-        }
+    public ResponseEntity<InventoryResponse> deductInventory(@RequestBody InventoryRequest request) {
+        // XID는 SeataHttpAutoConfiguration의 JakartaTransactionPropagationInterceptor가 자동 바인딩
+        log.info("Received inventory deduction request, XID: {}", RootContext.getXID());
 
         try {
             InventoryResponse response = inventoryService.deductInventory(request);
@@ -39,10 +33,6 @@ public class InventoryController {
             log.error("Inventory deduction failed", e);
             return ResponseEntity.badRequest()
                     .body(InventoryResponse.failure(request.productId(), e.getMessage()));
-        } finally {
-            if (xid != null) {
-                RootContext.unbind();
-            }
         }
     }
 }

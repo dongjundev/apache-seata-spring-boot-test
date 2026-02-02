@@ -22,15 +22,9 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<PaymentResponse> createPayment(
-            @RequestHeader(value = RootContext.KEY_XID, required = false) String xid,
-            @RequestBody PaymentRequest request) {
-
-        log.info("Received payment request with XID: {}", xid);
-
-        if (xid != null) {
-            RootContext.bind(xid);
-        }
+    public ResponseEntity<PaymentResponse> createPayment(@RequestBody PaymentRequest request) {
+        // XID는 SeataHttpAutoConfiguration의 JakartaTransactionPropagationInterceptor가 자동 바인딩
+        log.info("Received payment request, XID: {}", RootContext.getXID());
 
         try {
             PaymentResponse response = paymentService.processPayment(request);
@@ -39,10 +33,6 @@ public class PaymentController {
             log.error("Payment processing failed", e);
             return ResponseEntity.badRequest()
                     .body(PaymentResponse.failure(e.getMessage()));
-        } finally {
-            if (xid != null) {
-                RootContext.unbind();
-            }
         }
     }
 }
