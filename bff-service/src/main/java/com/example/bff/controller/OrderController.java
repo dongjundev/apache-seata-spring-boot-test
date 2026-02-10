@@ -66,4 +66,35 @@ public class OrderController {
                     .body(OrderResponse.failure(e.getMessage()));
         }
     }
+
+    @Operation(
+            summary = "서브쿼리 UPDATE 롤백 테스트",
+            description = """
+                    서브쿼리가 포함된 네이티브 UPDATE문의 Seata AT 모드 롤백을 테스트합니다.
+
+                    **처리 과정:**
+                    1. Payment Service에 결제 생성 (INSERT)
+                    2. Inventory Service에서 서브쿼리 포함 native UPDATE로 재고 차감
+                    3. 의도적으로 RuntimeException 발생 → 글로벌 롤백 트리거
+
+                    **예상 결과:** 응답 FAILED, 재고 원복, payment 레코드 삭제
+                    """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "의도적 롤백으로 항상 실패 응답",
+                    content = @Content(schema = @Schema(implementation = OrderResponse.class))
+            )
+    })
+    @PostMapping("/test-subquery-update-rollback")
+    public ResponseEntity<OrderResponse> testSubqueryUpdateRollback(@RequestBody OrderRequest request) {
+        try {
+            OrderResponse response = orderService.testSubqueryUpdateRollback(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(OrderResponse.failure(e.getMessage()));
+        }
+    }
 }

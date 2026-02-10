@@ -13,6 +13,8 @@ import org.springframework.web.client.RestClient;
 
 import java.util.Map;
 
+import static java.lang.Thread.sleep;
+
 @Service
 public class OrderService {
 
@@ -49,10 +51,35 @@ public class OrderService {
             callInventoryService(request);
 
             log.info("Order completed successfully, XID: {}", xid);
+            sleep(20000); // Simulate processing delay
             return OrderResponse.success(xid);
 
         } catch (Exception e) {
             log.error("Order failed, rolling back. XID: {}, Error: {}", xid, e.getMessage());
+            throw new RuntimeException("Order failed: " + e.getMessage(), e);
+        }
+    }
+
+    @GlobalTransactional(name = "test-subquery-update-rollback", rollbackFor = Exception.class)
+    public OrderResponse testSubqueryUpdateRollback(OrderRequest request) {
+        String xid = RootContext.getXID();
+        log.info("Starting subquery UPDATE rollback test, XID: {}", xid);
+
+        try {
+            // Step 1: Deduct inventory via subquery UPDATE
+            log.info("Calling inventory service (subquery UPDATE) for product: {}, quantity: {}",
+                    request.productId(), request.quantity());
+            callInventorySubqueryService(request);
+
+            // Step 2: Create payment (will fail intentionally inside payment service)
+            log.info("Calling payment service (will fail) for product: {}, amount: {}",
+                    request.productId(), request.amount());
+            callPaymentFailService(request);
+
+            return OrderResponse.success(xid);
+
+        } catch (Exception e) {
+            log.error("Subquery UPDATE rollback test - exception from payment service, XID: {}, Error: {}", xid, e.getMessage());
             throw new RuntimeException("Order failed: " + e.getMessage(), e);
         }
     }
@@ -87,5 +114,37 @@ public class OrderService {
                 .body(String.class);
 
         log.info("Inventory service response: {}", response);
+    }
+
+    private void callPaymentFailService(OrderRequest request) {
+        Map<String, Object> paymentRequest = Map.of(
+                "productId", request.productId(),
+                "amount", request.amount()
+        );
+
+        String response = restClient.post()
+                .uri(paymentServiceUrl + "/api/payments/fail")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(paymentRequest)
+                .retrieve()
+                .body(String.class);
+
+        log.info("Payment fail service response: {}", response);
+    }
+
+    private void callInventorySubqueryService(OrderRequest request) {
+        Map<String, Object> inventoryRequest = Map.of(
+                "productId", request.productId(),
+                "quantity", request.quantity()
+        );
+
+        String response = restClient.post()
+                .uri(inventoryServiceUrl + "/api/inventory/deduct-subquery")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(inventoryRequest)
+                .retrieve()
+                .body(String.class);
+
+        log.info("Inventory subquery service response: {}", response);
     }
 }

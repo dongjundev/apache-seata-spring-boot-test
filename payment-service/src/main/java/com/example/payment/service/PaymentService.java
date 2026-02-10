@@ -34,4 +34,16 @@ public class PaymentService {
         log.info("Payment saved successfully, paymentId: {}", payment.getId());
         return PaymentResponse.success(payment.getId());
     }
+
+    @Transactional
+    public PaymentResponse processPaymentAndFail(PaymentRequest request) {
+        String xid = RootContext.getXID();
+        log.info("Processing payment (will fail) in global transaction, XID: {}", xid);
+
+        Payment payment = new Payment(request.productId(), request.amount(), "COMPLETED");
+        payment = paymentRepository.save(payment);
+        log.info("Payment saved successfully, paymentId: {}, now throwing intentional exception", payment.getId());
+
+        throw new RuntimeException("Intentional payment failure to test subquery UPDATE rollback");
+    }
 }

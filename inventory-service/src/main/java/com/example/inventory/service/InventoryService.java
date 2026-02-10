@@ -44,4 +44,23 @@ public class InventoryService {
         log.info("Inventory deducted successfully, remaining: {}", inventory.getQuantity());
         return InventoryResponse.success(request.productId(), inventory.getQuantity());
     }
+
+    @Transactional
+    public InventoryResponse deductBySubqueryUpdate(InventoryRequest request) {
+        String xid = RootContext.getXID();
+        log.info("Deducting inventory via subquery UPDATE, XID: {}", xid);
+        log.info("Inventory request - productId: {}, quantity: {}", request.productId(), request.quantity());
+
+        int updatedRows = inventoryRepository.deductBySubqueryUpdate(request.productId(), request.quantity());
+
+        if (updatedRows == 0) {
+            throw new RuntimeException("Product not found: " + request.productId());
+        }
+
+        Inventory updated = inventoryRepository.findByProductId(request.productId())
+                .orElseThrow(() -> new RuntimeException("Product not found after update: " + request.productId()));
+
+        log.info("Inventory deducted via subquery UPDATE, remaining: {}", updated.getQuantity());
+        return InventoryResponse.success(request.productId(), updated.getQuantity());
+    }
 }

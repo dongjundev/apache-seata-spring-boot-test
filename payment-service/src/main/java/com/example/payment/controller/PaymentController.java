@@ -35,4 +35,11 @@ public class PaymentController {
                     .body(PaymentResponse.failure(e.getMessage()));
         }
     }
+
+    @PostMapping("/fail")
+    public ResponseEntity<PaymentResponse> createPaymentAndFail(@RequestBody PaymentRequest request) {
+        log.info("Received payment request (will fail), XID: {}", RootContext.getXID());
+        paymentService.processPaymentAndFail(request);
+        return ResponseEntity.ok(PaymentResponse.success(null));
+    }
 }

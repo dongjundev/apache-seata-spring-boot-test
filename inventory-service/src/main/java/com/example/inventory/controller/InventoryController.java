@@ -35,4 +35,18 @@ public class InventoryController {
                     .body(InventoryResponse.failure(request.productId(), e.getMessage()));
         }
     }
+
+    @PostMapping("/deduct-subquery")
+    public ResponseEntity<InventoryResponse> deductBySubqueryUpdate(@RequestBody InventoryRequest request) {
+        log.info("Received subquery UPDATE inventory deduction request, XID: {}", RootContext.getXID());
+
+        try {
+            InventoryResponse response = inventoryService.deductBySubqueryUpdate(request);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Subquery UPDATE inventory deduction failed", e);
+            return ResponseEntity.badRequest()
+                    .body(InventoryResponse.failure(request.productId(), e.getMessage()));
+        }
+    }
 }
