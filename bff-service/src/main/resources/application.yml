@@ -30,7 +30,7 @@ seata:
 logging:
   level:
     com.example: DEBUG
-    org.apache.seata: DEBUG
+    org.apache.seata: INFO
 
 # Swagger/OpenAPI Configuration
 springdoc:
