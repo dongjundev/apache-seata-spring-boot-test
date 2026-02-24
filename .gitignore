@@ -18,7 +18,6 @@ gradle-app.setting
 # Java
 ########################################
 *.class
-*.jar
 *.war
 *.ear
 *.nar
