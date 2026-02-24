@@ -73,11 +73,10 @@ public class OrderController {
                     서브쿼리가 포함된 네이티브 UPDATE문의 Seata AT 모드 롤백을 테스트합니다.
 
                     **처리 과정:**
-                    1. Payment Service에 결제 생성 (INSERT)
-                    2. Inventory Service에서 서브쿼리 포함 native UPDATE로 재고 차감
-                    3. 의도적으로 RuntimeException 발생 → 글로벌 롤백 트리거
+                    1. Inventory Service에서 서브쿼리 포함 native UPDATE로 재고 차감
+                    2. Payment Service에서 RuntimeException 발생
 
-                    **예상 결과:** 응답 FAILED, 재고 원복, payment 레코드 삭제
+                    **예상 결과:** 응답 FAILED, 재고 원복
                     """
     )
     @ApiResponses(value = {
