@@ -29,7 +29,6 @@ public class PaymentService {
 
         Payment payment = new Payment(request.productId(), request.amount(), "COMPLETED");
         payment = paymentRepository.save(payment);
-        Thread.sleep(20000);
 
         log.info("Payment saved successfully, paymentId: {}", payment.getId());
         return PaymentResponse.success(payment.getId());

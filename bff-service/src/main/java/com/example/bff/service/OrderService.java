@@ -51,7 +51,6 @@ public class OrderService {
             callInventoryService(request);
 
             log.info("Order completed successfully, XID: {}", xid);
-            sleep(20000); // Simulate processing delay
             return OrderResponse.success(xid);
 
         } catch (Exception e) {

@@ -39,7 +39,6 @@ public class InventoryService {
 
         inventory.setQuantity(inventory.getQuantity() - request.quantity());
         inventoryRepository.save(inventory);
-        Thread.sleep(20000);
 
         log.info("Inventory deducted successfully, remaining: {}", inventory.getQuantity());
         return InventoryResponse.success(request.productId(), inventory.getQuantity());
