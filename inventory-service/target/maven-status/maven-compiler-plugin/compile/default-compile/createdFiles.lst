@@ -1,7 +1,0 @@
-com/example/inventory/repository/InventoryRepository.class
-com/example/inventory/InventoryApplication.class
-com/example/inventory/dto/InventoryRequest.class
-com/example/inventory/service/InventoryService.class
-com/example/inventory/entity/Inventory.class
-com/example/inventory/controller/InventoryController.class
-com/example/inventory/dto/InventoryResponse.class

@@ -1,7 +1,0 @@
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/controller/PaymentController.java
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/PaymentApplication.java
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/dto/PaymentRequest.java
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/entity/Payment.java
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/service/PaymentService.java
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/dto/PaymentResponse.java
-/Users/dongjun/Desktop/Project/apache-seata-spring-boot-test/payment-service/src/main/java/com/example/payment/repository/PaymentRepository.java
