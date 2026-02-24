@@ -1,6 +1,6 @@
 AGENTS.md
 CLAUDE.md
-
+.claude
 
 ########################################
 # Gradle
@@ -8,6 +8,7 @@ CLAUDE.md
 .gradle/
 build/
 **/build/
+target/
 
 # Gradle GUI / local settings (optional)
 gradle-app.setting
